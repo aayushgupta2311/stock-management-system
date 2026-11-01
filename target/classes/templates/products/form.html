@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::content})}">
+<head><title>Product Form</title></head>
+<body>
+<div th:fragment="content">
+    <div class="col-lg-8 mx-auto">
+        <div class="card glass-card p-4">
+            <h3 class="fw-bold text-white mb-3" th:text="${product.id != null ? 'Edit Item' : 'Register New Item'}">Product</h3>
+            
+            <form th:action="@{/products/save}" th:object="${product}" method="post">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary">SKU Code</label>
+                        <input type="text" th:field="*{sku}" class="form-control form-control-glass" placeholder="e.g. ELEC-0091" required />
+                        <div class="text-danger small" th:errors="*{sku}"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary">Product Name</label>
+                        <input type="text" th:field="*{name}" class="form-control form-control-glass" required />
+                        <div class="text-danger small" th:errors="*{name}"></div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary">Category</label>
+                        <select name="category.id" class="form-select form-select-glass">
+                            <option value="">-- Unassigned --</option>
+                            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"
+                                    th:selected="${product.category != null and product.category.id == c.id}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary">Supplier</label>
+                        <select name="supplier.id" class="form-select form-select-glass">
+                            <option value="">-- Select Supplier --</option>
+                            <option th:each="s : ${suppliers}" th:value="${s.id}" th:text="${s.companyName}"
+                                    th:selected="${product.supplier != null and product.supplier.id == s.id}"></option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary">Purchase/Cost Price ($)</label>
+                        <input type="number" step="0.01" th:field="*{costPrice}" class="form-control form-control-glass" required />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary">Retail/Selling Price ($)</label>
+                        <input type="number" step="0.01" th:field="*{sellingPrice}" class="form-control form-control-glass" required />
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label class="form-label text-secondary">Current Quantity</label>
+                        <input type="number" th:field="*{quantityInStock}" class="form-control form-control-glass" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-secondary">Reorder Threshold Alert</label>
+                        <input type="number" th:field="*{reorderLevel}" class="form-control form-control-glass" required />
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-secondary">Unit</label>
+                        <input type="text" th:field="*{unit}" class="form-control form-control-glass" placeholder="PCS / BOX / KG" />
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a th:href="@{/products}" class="btn btn-outline-secondary rounded-3">Cancel</a>
+                    <button type="submit" class="btn btn-primary-glass">Save Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

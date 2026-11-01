@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::content})}">
+<head><title>Suppliers Master</title></head>
+<body>
+<div th:fragment="content">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card glass-card p-4">
+                <h4 class="fw-bold text-white mb-3">Register Supplier</h4>
+                <form th:action="@{/suppliers/save}" th:object="${newSupplier}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Company Name</label>
+                        <input type="text" th:field="*{companyName}" class="form-control form-control-glass" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Contact Person</label>
+                        <input type="text" th:field="*{contactPerson}" class="form-control form-control-glass" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Phone</label>
+                        <input type="text" th:field="*{phone}" class="form-control form-control-glass" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control form-control-glass" />
+                    </div>
+                    <button type="submit" class="btn btn-primary-glass w-100">Save Supplier</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card glass-card p-4">
+                <h4 class="fw-bold text-white mb-3">Active Suppliers</h4>
+                <div class="table-responsive">
+                    <table class="table table-glass align-middle">
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Contact</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="s : ${suppliers}">
+                                <td class="fw-bold text-info" th:text="${s.companyName}">Company</td>
+                                <td th:text="${s.contactPerson}">Contact</td>
+                                <td th:text="${s.phone}">Phone</td>
+                                <td th:text="${s.email}">Email</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

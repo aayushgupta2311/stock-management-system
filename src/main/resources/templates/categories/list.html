@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::content})}">
+<head><title>Category Master</title></head>
+<body>
+<div th:fragment="content">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card glass-card p-4">
+                <h4 class="fw-bold text-white mb-3">Add Category</h4>
+                <form th:action="@{/categories/save}" th:object="${newCategory}" method="post">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Category Name</label>
+                        <input type="text" th:field="*{name}" class="form-control form-control-glass" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Description</label>
+                        <textarea th:field="*{description}" class="form-control form-control-glass" rows="2"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary-glass w-100">Save</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card glass-card p-4">
+                <h4 class="fw-bold text-white mb-3">Registered Categories</h4>
+                <table class="table table-glass">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="c : ${categories}">
+                            <td th:text="${c.id}">1</td>
+                            <td class="fw-bold text-info" th:text="${c.name}">Name</td>
+                            <td th:text="${c.description}">Description</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

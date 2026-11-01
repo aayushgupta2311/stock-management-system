@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::content})}">
+<head><title>Stock Adjustment</title></head>
+<body>
+<div th:fragment="content">
+    <div class="col-lg-6 mx-auto">
+        <div class="card glass-card p-4">
+            <h3 class="fw-bold text-white mb-2"><i class="bi bi-sliders me-2 text-warning"></i>Audit &amp; Stock Adjustment</h3>
+            <p class="text-secondary mb-4">Reconcile counts for theft, damages, write-offs, or recounting</p>
+
+            <div th:if="${errorMessage}" class="alert alert-danger py-2" th:text="${errorMessage}"></div>
+
+            <form th:action="@{/stock-adjustments/save}" th:object="${stockAdjustment}" method="post">
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Product</label>
+                    <select th:field="*{product.id}" class="form-select form-select-glass" required>
+                        <option value="">-- Select Product --</option>
+                        <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name + ' (Current: ' + p.quantityInStock + ')'}"></option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label text-secondary">Adjustment Delta (+ or -)</label>
+                    <input type="number" th:field="*{quantityAdjusted}" class="form-control form-control-glass" placeholder="e.g. -2 for damage, 5 for surplus" required />
+                    <small class="text-secondary">Use negative numbers to deduct, positive to add.</small>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label text-secondary">Audit Note / Reason</label>
+                    <textarea th:field="*{reason}" class="form-control form-control-glass" rows="3" placeholder="Explain discrepancy..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary-glass w-100">Post Adjustment</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

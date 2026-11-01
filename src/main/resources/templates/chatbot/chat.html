@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::content})}">
+<head><title>StockBot Assistant</title></head>
+<body>
+<div th:fragment="content">
+    <link rel="stylesheet" th:href="@{/chatbot/chatbot.css}">
+
+    <div class="col-lg-9 mx-auto">
+        <div class="d-flex align-items-center mb-3">
+            <i class="bi bi-robot fs-2 text-info me-3"></i>
+            <div>
+                <h2 class="fw-bold text-white mb-0">StockBot Assistant</h2>
+                <p class="text-secondary mb-0">Ask about stock, sales and purchases &ndash; answers come straight from your database.</p>
+            </div>
+        </div>
+
+        <div id="chatbot" class="card glass-card chatbot-card"
+             th:attr="data-message-url=@{/chatbot/api/message},data-welcome-url=@{/chatbot/api/welcome},data-csrf-token=${_csrf != null ? _csrf.token : ''},data-csrf-header=${_csrf != null ? _csrf.headerName : 'X-CSRF-TOKEN'}">
+
+            <div id="chatbot-messages" class="chatbot-messages" aria-live="polite"></div>
+
+            <div id="chatbot-chips" class="chatbot-chips"></div>
+
+            <form id="chatbot-form" class="chatbot-form" autocomplete="off">
+                <input id="chatbot-input" type="text" maxlength="500" class="form-control form-control-glass"
+                       placeholder="Type a question, e.g. &quot;low stock items&quot; or &quot;sales today&quot;" />
+                <button id="chatbot-send" type="submit" class="btn btn-primary-glass">
+                    <i class="bi bi-send"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script th:src="@{/chatbot/chatbot.js}"></script>
+</div>
+</body>
+</html>

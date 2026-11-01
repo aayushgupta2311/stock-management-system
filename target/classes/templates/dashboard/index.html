@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(~{::content})}">
+<head><title>Dashboard</title></head>
+<body>
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0 text-white">Inventory Command Center</h2>
+            <p class="text-secondary mb-0">Live stock metrics &amp; movement operations</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a th:href="@{/purchases/create}" class="btn btn-primary-glass"><i class="bi bi-cart-plus me-1"></i> Stock In</a>
+            <a th:href="@{/sales/create}" class="btn btn-outline-light rounded-3"><i class="bi bi-receipt me-1"></i> Stock Out</a>
+        </div>
+    </div>
+
+    <!-- Top KPI Matrix -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-3">
+            <div class="card glass-card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-secondary small mb-1">TOTAL PRODUCTS</p>
+                        <h3 class="fw-bold text-white mb-0" th:text="${totalProducts}">0</h3>
+                    </div>
+                    <i class="bi bi-boxes fs-1 text-info"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card glass-card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-secondary small mb-1">CRITICAL LOW STOCK</p>
+                        <h3 class="fw-bold text-danger mb-0" th:text="${lowStockCount}">0</h3>
+                    </div>
+                    <i class="bi bi-exclamation-octagon fs-1 text-danger"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card glass-card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-secondary small mb-1">PURCHASES (TOTAL)</p>
+                        <h3 class="fw-bold text-white mb-0" th:text="'$' + ${totalPurchases}">$0</h3>
+                    </div>
+                    <i class="bi bi-wallet2 fs-1 text-warning"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card glass-card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <p class="text-secondary small mb-1">SALES REVENUE</p>
+                        <h3 class="fw-bold text-success mb-0" th:text="'$' + ${totalSales}">$0</h3>
+                    </div>
+                    <i class="bi bi-graph-up-arrow fs-1 text-success"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Low Stock Alerts Table -->
+        <div class="col-lg-7">
+            <div class="card glass-card p-4 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold text-white mb-0"><i class="bi bi-shield-alert text-danger me-2"></i>Stockout Warnings</h5>
+                    <a th:href="@{/products}" class="small text-info text-decoration-none">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-glass align-middle">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Item</th>
+                                <th>Current Stock</th>
+                                <th>Reorder Level</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="p : ${criticalItems}">
+                                <td class="fw-bold" th:text="${p.sku}">SKU</td>
+                                <td th:text="${p.name}">Product Name</td>
+                                <td class="text-danger fw-bold" th:text="${p.quantityInStock}">0</td>
+                                <td th:text="${p.reorderLevel}">0</td>
+                                <td>
+                                    <a th:href="@{/purchases/create}" class="btn btn-sm btn-outline-warning rounded-2">Restock</a>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(criticalItems)}">
+                                <td colspan="5" class="text-center text-secondary py-3">All inventory quantities are above safety thresholds.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Sales Feed -->
+        <div class="col-lg-5">
+            <div class="card glass-card p-4 h-100">
+                <h5 class="fw-bold text-white mb-3"><i class="bi bi-receipt text-info me-2"></i>Recent Outward Orders</h5>
+                <ul class="list-group list-group-flush bg-transparent">
+                    <li class="list-group-item bg-transparent text-light border-secondary px-0" th:each="s : ${recentSales}">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <span class="fw-bold" th:text="${s.invoiceNumber}">INV-101</span>
+                                <small class="text-secondary d-block" th:text="${s.customerName}">Customer</small>
+                            </div>
+                            <div class="text-end">
+                                <div class="text-success fw-bold" th:text="'+$' + ${s.totalAmount}">$0.00</div>
+                                <small class="text-secondary" th:text="${s.quantity + ' units'}">1 units</small>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item bg-transparent text-secondary px-0 text-center" th:if="${#lists.isEmpty(recentSales)}">
+                        No transactions registered yet.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
