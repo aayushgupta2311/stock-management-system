@@ -43,7 +43,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <p class="text-secondary small mb-1">PURCHASES (TOTAL)</p>
-                        <h3 class="fw-bold text-white mb-0" th:text="'$' + ${totalPurchases}">$0</h3>
+                        <h3 class="fw-bold text-white mb-0" th:text="'₹' + ${totalPurchases}">₹0</h3>
                     </div>
                     <i class="bi bi-wallet2 fs-1 text-warning"></i>
                 </div>
@@ -54,7 +54,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <p class="text-secondary small mb-1">SALES REVENUE</p>
-                        <h3 class="fw-bold text-success mb-0" th:text="'$' + ${totalSales}">$0</h3>
+                        <h3 class="fw-bold text-success mb-0" th:text="'₹' + ${totalSales}">₹0</h3>
                     </div>
                     <i class="bi bi-graph-up-arrow fs-1 text-success"></i>
                 </div>
@@ -112,7 +112,7 @@
                                 <small class="text-secondary d-block" th:text="${s.customerName}">Customer</small>
                             </div>
                             <div class="text-end">
-                                <div class="text-success fw-bold" th:text="'+$' + ${s.totalAmount}">$0.00</div>
+                                <div class="text-success fw-bold" th:text="'+₹' + ${s.totalAmount}">₹0.00</div>
                                 <small class="text-secondary" th:text="${s.quantity + ' units'}">1 units</small>
                             </div>
                         </div>

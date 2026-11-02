@@ -47,8 +47,8 @@
                         <td class="fw-bold text-info" th:text="${product.sku}">SKU-001</td>
                         <td class="text-white" th:text="${product.name}">Example Item</td>
                         <td th:text="${product.category != null ? product.category.name : '-'}">Category</td>
-                        <td th:text="'$' + ${product.costPrice}">$0.00</td>
-                        <td th:text="'$' + ${product.sellingPrice}">$0.00</td>
+                        <td th:text="'₹' + ${product.costPrice}">₹0.00</td>
+                        <td th:text="'₹' + ${product.sellingPrice}">₹0.00</td>
                         <td class="fw-bold" th:text="${product.quantityInStock + ' ' + (product.unit != null ? product.unit : '')}">0</td>
                         <td>
                             <span th:if="${product.quantityInStock <= product.reorderLevel}" class="badge bg-danger">Low Stock</span>
